@@ -42,24 +42,30 @@ class _HomeScreenState extends State<HomeScreen> {
             child: FutureBuilder(
               future: getPhotos(),
               builder: (context, AsyncSnapshot<List<Photos>> snapshot) {
-                return ListView.builder(
-                  itemCount: photosList.length,
-                  itemBuilder: (context, index) {
-                    return ListTile(
-                      leading: CircleAvatar(
-                        // Static Image
-                        backgroundImage: NetworkImage(
-                            "https://scontent.fmey1-1.fna.fbcdn.net/v/t1.6435-9/188514341_101512265466625_4046622472765727274_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=174925&_nc_ohc=XT7b5XQnL44AX8LX5NH&_nc_ht=scontent.fmey1-1.fna&oh=00_AfB_wFXf8ltZUjB2RZve74s1gjMeTN0Kg2_NkQEJXH47oA&oe=63AA6FD8"),
-                        // Dynamic Image link is broken
-                        // backgroundImage:
-                        //     NetworkImage(snapshot.data![index].url.toString()),
-                      ),
-                      subtitle: Text(snapshot.data![index].title.toString()),
-                      title: Text(
-                          "Notes id:" + snapshot.data![index].id.toString()),
-                    );
-                  },
-                );
+                if (!snapshot.hasData) {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                } else {
+                  return ListView.builder(
+                    itemCount: photosList.length,
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                        leading: CircleAvatar(
+                          // Static Image
+                          backgroundImage: NetworkImage(
+                              "https://scontent.fmey1-1.fna.fbcdn.net/v/t1.6435-9/188514341_101512265466625_4046622472765727274_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=174925&_nc_ohc=XT7b5XQnL44AX8LX5NH&_nc_ht=scontent.fmey1-1.fna&oh=00_AfB_wFXf8ltZUjB2RZve74s1gjMeTN0Kg2_NkQEJXH47oA&oe=63AA6FD8"),
+                          // Dynamic Image link is broken
+                          // backgroundImage:
+                          //     NetworkImage(snapshot.data![index].url.toString()),
+                        ),
+                        subtitle: Text(snapshot.data![index].title.toString()),
+                        title: Text(
+                            "Notes id:" + snapshot.data![index].id.toString()),
+                      );
+                    },
+                  );
+                }
               },
             ),
           ),
